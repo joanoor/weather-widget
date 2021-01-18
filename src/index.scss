@@ -1,15 +1,184 @@
+ul,
+ol {
+  list-style: none;
+}
+
 .xt-weather-hover {
   cursor: pointer;
 }
-
-.xt-weather-detail {
-  width: 200px;
-  height: 100px;
-  position: absolute;
-  background: white;
-  border-radius: 0.5em;
-  padding: 1.3em;
-  box-shadow: 0 0 18px 2px #ececec;
+.xt-weather-relative {
+  position: relative;
 }
-.xt-weather-container {
+.xt-weather-absolute {
+  position: absolute;
+}
+.xt-weather-flex {
+  display: flex;
+}
+.xt-weather-flex-align-center {
+  align-items: center;
+}
+.xt-weather-flex-just-center {
+  justify-content: center;
+}
+.xt-weather-zindex100 {
+  z-index: 100;
+}
+.xt-weather-zindex90 {
+  z-index: 90;
+}
+.xt-weather-zindex80 {
+  z-index: 80;
+}
+.xt-weather-filter::after {
+  position: absolute;
+  content: '';
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.3);
+  // filter: blur(0px) contrast(0.8);
+}
+
+.xt-weather {
+  #weather-basic {
+    padding-bottom: 0.4em;
+  }
+  .xt-weather-container-normal {
+    display: none;
+    box-sizing: border-box;
+    overflow: hidden;
+    z-index: 100;
+    color: white;
+    border-radius: 0.2em;
+    padding: 0.8em;
+    .xt-weather-title {
+      font-size: 0.9em;
+      .xt-weather-location-icon {
+        width: 1.1em;
+        height: 1.1em;
+        background: url('./imgs/location.png') no-repeat;
+        background-size: cover;
+        margin-right: 0.3em;
+      }
+      .xt-weather-location {
+        float: left;
+      }
+      .xt-weather-time {
+        float: right;
+      }
+    }
+
+    .xt-weather-real {
+      position: relative;
+      margin-top: 4.5em;
+      z-index: 100;
+      border-bottom: solid 1px rgba(255, 255, 255, 0.7);
+      padding: 2em 0 1em 1em;
+      .xt-weather-real-block {
+        width: 30%;
+        display: inline-block;
+        font-size: 0.9em;
+        div {
+          margin-bottom: 10px;
+        }
+        &:first-child {
+          .xt-weather-real-block-upper {
+            font-size: 4em;
+          }
+        }
+        &:nth-child(2) {
+          .xt-weather-real-block-upper {
+            > div {
+              &:first-child {
+                font-weight: 600;
+                color: yellow;
+              }
+            }
+          }
+        }
+        &:last-child {
+          text-align: center;
+          .xt-weather-real-block-upper {
+          }
+        }
+      }
+    }
+    .xt-weather-forecast {
+      position: relative;
+      z-index: 100;
+      height: 8%;
+      font-size: 0.8em;
+      margin-top: 1em;
+    }
+    .xt-weather-forecast-container {
+      margin-top: 0.6em;
+      overflow: hidden;
+      height: 14%;
+      overflow: hidden;
+      position: relative;
+      // white-space: nowrap;
+      .xt-weather-forecast-swiper {
+        width: 99999999px;
+        height: 100%;
+        margin-block-start: 0 !important;
+        margin-block-end: 0 !important;
+        padding-inline-start: 0 !important;
+        .xt-weather-forecast-swiper-item {
+          box-sizing: border-box;
+          width: 9em;
+          height: 100%;
+          padding: 0.4em;
+          border-radius: 0.2em;
+          background: rgba(255, 255, 255, 0.15);
+          position: relative;
+          display: inline-block;
+          margin-right: 1em !important;
+        }
+      }
+      .xt-weather-forecast-swiper-left {
+        display: none;
+        width: 32px;
+        height: 32px;
+        position: absolute;
+        top: 0;
+        background: url('./imgs/left.png') no-repeat;
+        background-size: cover;
+        transition: all 0.4s ease;
+      }
+
+      .xt-weather-forecast-swiper-right {
+        display: none;
+        width: 32px;
+        height: 32px;
+        position: absolute;
+        top: 0;
+        right: 60px;
+        background: url('./imgs/right.png') no-repeat;
+        background-size: cover;
+        transition: all 0.4s ease;
+      }
+    }
+    .xt-weather-realcurve {
+      margin-top: 0.6em;
+      width: 100%;
+      height: 26%;
+      // border: solid 1px red;
+    }
+    .xt-weather-datasource {
+      // width: 60%;
+      // height: 26px;
+      // line-height: 26px;
+      text-align: center;
+      font-size: 0.6em;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 26px;
+      padding: 5px 12px 5px 12px;
+      margin: 0 auto;
+      margin-top: 1em;
+      position: absolute;
+      transform: translateX(50%);
+    }
+  }
 }

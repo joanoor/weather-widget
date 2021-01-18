@@ -66,6 +66,13 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.(jpg|png|gif)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10 * 1024,
+        },
+      },
     ],
   },
 
@@ -87,5 +94,9 @@ module.exports = {
     },
   },
 
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, './index.html'),
+    }),
+  ],
 }

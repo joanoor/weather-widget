@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      background: black;
+    }
+
+    #c1 {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      background: #333;
+    }
+
+    .circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      cursor: pointer;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      -webkit-transition: all 0.2s;
+      -moz-transition: all 0.2s;
+    }
+
+    .circle:nth-child(1) {
+      background: #33ffbb;
+      -webkit-animation: r0 2s 0s ease-out infinite;
+      -moz-animation: r0 2s 0s ease-out infinite;
+    }
+
+    @keyframes r0 {
+      0% {
+        box-shadow: 0 0 8px 6px rgba(26, 255, 179, 0), 0 0 0px 0px #333, 0 0 0px 0px rgba(26, 255, 179, 0);
+      }
+
+      10% {
+        box-shadow: 0 0 8px 6px #1affb3, 0 0 12px 10px #333, 0 0 12px 14px #1affb3;
+      }
+
+      100% {
+        box-shadow: 0 0 8px 6px rgba(26, 255, 179, 0), 0 0 0px 40px #333, 0 0 0px 40px rgba(26, 255, 179, 0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="c1">
+    <div class="circle"></div>
+  </div>
+</body>
+
+</html>

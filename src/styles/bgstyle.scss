@@ -1,0 +1,29 @@
+/* 这里表示各种天气情况的时候，widget的背景样式 */
+
+// 晴天时白天的背景
+.xt-fineday {
+  background: url('../imgs/100d.png') no-repeat;
+  background-size: cover;
+}
+
+// 多云时白天的背景
+.xt-cloudday {
+  background: linear-gradient(
+    to bottom,
+    rgb(49, 118, 200) 0%,
+    #1e528e 70%,
+    #5b7983 100%
+  );
+  transition: all 0.3s ease-in-out;
+}
+
+// 夜晚的背景
+.xt-night {
+  background: linear-gradient(to bottom, #1a2238 40%, #222 100%);
+  transition: all 0.3s ease-in-out;
+}
+
+// 晴天夜晚星空
+.xt-starry {
+  background: radial-gradient(220% 105% at top center, #1b2947 80%, #222);
+}

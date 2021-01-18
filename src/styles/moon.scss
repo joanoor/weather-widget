@@ -1,0 +1,106 @@
+.xt-moon {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #f6edbd;
+  box-shadow: 0 0 10px 0 #f6edbd;
+  animation: curve1 2s ease-out forwards, curve2 2s ease-in forwards;
+  overflow: hidden;
+}
+.xt-moon .xt-moon-crater {
+  background-color: #ece1a8;
+  position: absolute;
+  border-radius: 50%;
+}
+.xt-moon .xt-moon-crater-1,
+.xt-moon .xt-moon-crater-2,
+.xt-moon .xt-moon-crater-3 {
+  width: 12px;
+  height: 12px;
+}
+.xt-moon .xt-moon-crater-4,
+.xt-moon .xt-moon-crater-5,
+.xt-moon .xt-moon-crater-6,
+.xt-moon .xt-moon-crater-7,
+.xt-moon .xt-moon-crater-8,
+.xt-moon .xt-moon-crater-9 {
+  width: 6px;
+  height: 6px;
+}
+.xt-moon .xt-moon-crater-10,
+.xt-moon .xt-moon-crater-11 {
+  width: 4px;
+  height: 4px;
+}
+.xt-moon .xt-moon-crater-1 {
+  top: 10px;
+  left: 30px;
+}
+.xt-moon .xt-moon-crater-2 {
+  top: 10px;
+  left: 0;
+}
+.xt-moon .xt-moon-crater-3 {
+  top: 55px;
+  left: 10px;
+}
+.xt-moon .xt-moon-crater-4 {
+  top: 35px;
+  left: 50px;
+}
+.xt-moon .xt-moon-crater-5 {
+  top: 25px;
+  left: 60px;
+}
+.xt-moon .xt-moon-crater-6 {
+  top: 55px;
+  left: 35px;
+}
+.xt-moon .xt-moon-crater-7 {
+  top: 15px;
+  left: 45px;
+}
+.xt-moon .xt-moon-crater-8 {
+  top: 30px;
+  left: 25px;
+}
+.xt-moon .xt-moon-crater-9 {
+  top: 40px;
+  left: 15px;
+}
+.xt-moon .xt-moon-crater-10 {
+  top: 25px;
+  left: 15px;
+}
+.xt-moon .xt-moon-crater-11 {
+  top: 40px;
+  left: 35px;
+}
+
+.xt-moon2 {
+  // box-shadow: 0 0 10px 0 #f6edbd;
+  position: absolute;
+  animation: curve1 2s ease-out forwards, curve2 2s ease-in forwards;
+  overflow: hidden;
+  filter: drop-shadow(0 0 10px 0 #f6edbd);
+}
+
+@keyframes curve1 {
+  0% {
+    top: 270px;
+  }
+  100% {
+    top: 54px;
+  }
+}
+
+@keyframes curve2 {
+  0% {
+    left: -80px;
+  }
+
+  100% {
+    left: 225px;
+  }
+}

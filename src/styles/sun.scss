@@ -1,0 +1,40 @@
+.xt-sun {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  background: rgb(249, 240, 9);
+  border-radius: 50%;
+  top: 3em;
+  right: 2em;
+  animation: 3s linear 0s none infinite light, curve1 2s ease-out forwards,
+    curve2 2s ease-in forwards;
+}
+@keyframes light {
+  0% {
+    box-shadow: 0 0 50px rgba(255, 254, 165, 1);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(255, 248, 74, 1);
+  }
+  100% {
+    box-shadow: 0 0 50px rgba(255, 254, 165, 1);
+  }
+}
+@keyframes curve1 {
+  0% {
+    top: 270px;
+  }
+  100% {
+    top: 54px;
+  }
+}
+
+@keyframes curve2 {
+  0% {
+    left: -80px;
+  }
+
+  100% {
+    left: 225px;
+  }
+}
