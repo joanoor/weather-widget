@@ -44,6 +44,17 @@ ol {
 .xt-weather {
   #weather-basic {
     padding-bottom: 0.4em;
+    > span {
+      display: inline-block;
+      &:first-child {
+        padding-right: 0.5em;
+        border-right: solid 1px rgba(0, 0, 0, 0.7);
+      }
+      &:nth-child(2) {
+        background: url('./imgs/moon.png') no-repeat;
+        background-size: cover;
+      }
+    }
   }
   .xt-weather-container-normal {
     display: none;

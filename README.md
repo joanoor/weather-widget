@@ -1,16 +1,5 @@
-
-
-```
-npm run build
-```
-
-or
-
-```
-yarn build
-```
-
-to bundle your application
+### xt-weather-widget
+A weather widget based on zepto.
 
 ### How to use?
 1. npm i xt-weather-widget

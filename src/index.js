@@ -11,6 +11,7 @@ import {
   genRain,
   genStarry,
   genMeteor,
+  genWind,
 } from './nature'
 
 const dayjs = require('dayjs')
@@ -20,7 +21,7 @@ const MODE = navigator.userAgent.toLowerCase()
 const isDev = process.env.NODE_ENV === 'development'
 console.log('process.env.NODE_ENV', process.env.NODE_ENV)
 const responseData = {
-  id: 171, // nature
+  id: 170, // nature
   desc: '今天白天晴，夜晚晴，比昨天暖和很多，现在10°，风很大，空气一般。',
   forecasts: [
     {
@@ -98,14 +99,18 @@ const handleError = e => {
 const initEl = () => {
   $('#xt-weather').append(
     `
-    <div class="xt-weather-hover" id="weather-basic">合肥</div>
+    <div class="xt-weather-hover xt-weather-flex xt-weather-flex-align-center" id="weather-basic">
+      <span>合肥</span>
+      <span style="width:30px;height:30px"></span>
+      <span>1°</span>
+    </div>
     <div class="xt-weather-container-normal xt-weather-absolute" id="weather-detail"></div>
     `
   )
   if (!MODE.includes('mobile')) {
     $('.xt-weather-container-normal').css({
       width: '320px',
-      height: '630px',
+      height: '600px',
     })
   } else {
     if (!MODE.includes('ipad')) {
@@ -131,11 +136,10 @@ const initEl = () => {
   })
 
   // 隐藏
-  if (!isDev) {
-    $('#xt-weather').on('mouseleave', function () {
-      $('#weather-detail').toggle(false).removeClass(ACTIVECLASS)
-    })
-  }
+
+  $('#xt-weather').on('mouseleave', function () {
+    $('#weather-detail').toggle(false).removeClass(ACTIVECLASS)
+  })
 
   $('#weather-detail').append(
     `
@@ -222,6 +226,10 @@ const carouselBlock = () => {
 // 创建元素动画
 const createNINA = data => {
   switch (data) {
+    // 大风
+    case 162:
+      genWind()
+      break
     // 雾天
     case 163:
       $('#weather-detail').append(

@@ -1,14 +1,19 @@
 {
   "name": "xt-weather-widget",
-  "version": "0.1.8",
-  "description": "My webpack project",
+  "version": "1.0.1",
+  "description": "A weather widget based on zepto.",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "dev": "webpack-dev-server --mode development"
   },
-  "author": "",
+  "author": "joanoor",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joanor/weather-widget"
+  },
+  "homepage": "https://github.com/joanor/weather-widget#readme",
   "license": "ISC",
   "dependencies": {
     "dayjs": "^1.10.3",
