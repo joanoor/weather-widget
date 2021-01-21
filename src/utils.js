@@ -11,7 +11,11 @@ export const autoImport = files => {
 }
 
 // 创建曲线
-export const setCurve = data => {
+export const setCurve = (
+  data,
+  color1 = 'rgb(62,118,196)',
+  color2 = 'transparent'
+) => {
   let xdatas = [],
     ydatas = []
   data.forEach(v => {
@@ -56,8 +60,8 @@ export const setCurve = data => {
         color: '#fff',
 
         interval: 3,
-        align: 'left',
-        padding: [0, -10, 0, 10],
+        // align: 'left',
+        padding: [0, -10, 0, 30],
       },
       axisTick: {
         show: false,
@@ -83,12 +87,12 @@ export const setCurve = data => {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             {
               offset: 0,
-              color: 'rgb(62,118,196)', // 0% 处的颜色
+              color: color1, // 0% 处的颜色
             },
 
             {
               offset: 1,
-              color: 'transparent', // 100% 处的颜色
+              color: color2, // 100% 处的颜色
             },
           ]),
         },
@@ -171,6 +175,7 @@ export const notify = (str, color = 'rgb(60, 80, 152)', t = 3) => {
 class Swiper {
   constructor() {
     this.w = $('.xt-weather-forecast-swiper-item').width()
+    console.log('此时的this.w', this.w)
     this.num = 0
     this.len =
       $('.xt-weather-forecast-swiper .xt-weather-forecast-swiper-item').length -
@@ -183,7 +188,9 @@ class Swiper {
     $('.xt-weather-forecast-swiper-left').click(() => {
       this.num--
       if (this.num < 0) {
-        this.num = this.len
+        // this.num = this.len
+        this.num = 0
+        return
       }
       let cssTrx = -this.num * this.w
       $('.xt-weather-forecast-swiper').css({
@@ -194,7 +201,8 @@ class Swiper {
     $('.xt-weather-forecast-swiper-right').click(() => {
       this.num++
       if (this.num > this.len) {
-        this.num = 0
+        this.num = this.len
+        return
       }
       let cssTrx = -this.num * this.w
       $('.xt-weather-forecast-swiper').css({

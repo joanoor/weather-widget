@@ -18,6 +18,16 @@
   transition: all 0.3s ease-in-out;
 }
 
+// 白天阴天的背景
+.xt-heavyday {
+  background: linear-gradient(
+    to bottom,
+    rgb(111, 124, 133),
+    rgb(145, 155, 159)
+  );
+  transition: all 0.3s ease-in-out;
+}
+
 // 夜晚的背景
 .xt-night {
   background: linear-gradient(to bottom, #1a2238 40%, #222 100%);

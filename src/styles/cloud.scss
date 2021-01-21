@@ -94,3 +94,18 @@
   //   transform: translate(-50%, -50%);
   // }
 }
+
+.xt-cloud11 {
+  position: absolute;
+  top: 3em;
+  animation: moveclouds11 10s linear alternate infinite;
+}
+
+@keyframes moveclouds11 {
+  0% {
+    margin-left: 100px;
+  }
+  100% {
+    margin-left: 0px;
+  }
+}

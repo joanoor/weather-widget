@@ -13,6 +13,7 @@ import {
   genMeteor,
   genWind,
   genFog,
+  genHeavy,
 } from './nature'
 autoImport(require.context('./styles', false, /\w+\.(scss|css)$/)) // 自动引入样式
 
@@ -23,7 +24,8 @@ const MODE = navigator.userAgent.toLowerCase()
 const isDev = process.env.NODE_ENV === 'development'
 console.log('process.env.NODE_ENV', process.env.NODE_ENV)
 const BGTYPE = {
-  CLOUDYDAY: 'xt-cloudday', // 阴天时的背景
+  CLOUDYDAY: 'xt-cloudday', // 白天，多云的背景
+  HEAVYDAY: 'xt-heavyday', // 白天，阴的背景
   FINEDAY: 'xt-fineday', // 晴天，万里无云时的背景
   STARRY: 'xt-starry', // 晴天夜晚星空的背景
   NIGHT: 'xt-night', // 晴天夜晚（没有星星）的背景
@@ -59,7 +61,9 @@ class weatherWidget {
     const nowTime = new Date().getTime()
     if (nowTime >= sunRiseTime && nowTime <= sunGlowTime) {
       if (data.nowWeather.code === '104') {
-        this.ACTIVECLASS = BGTYPE.CLOUDYDAY
+        this.color1 = 'rgb(111, 124, 133)'
+        this.color2 = 'rgb(145, 155, 159)'
+        this.ACTIVECLASS = BGTYPE.HEAVYDAY
       } else if (data.nowWeather.code === '101') {
         this.ACTIVECLASS = BGTYPE.CLOUDYDAY
       } else if (data.nowWeather.code === '100') {
@@ -137,7 +141,7 @@ class weatherWidget {
       $('#weather-detail').toggle(true).addClass(_this.ACTIVECLASS)
       $('#weather-detail').ready(function () {
         carouselBlock(data.weekWeather)
-        setCurve(data.hourlyWeather)
+        setCurve(data.hourlyWeather, _this.color1, _this.color2)
       })
     })
 
@@ -169,9 +173,24 @@ class weatherWidget {
     this.createNINA(data.nowWeather.code)
     this.createBaseInfo(data)
   }
+
   // 创建元素动画
   createNINA(data) {
     switch (parseInt(data)) {
+      // 白天多云
+      case 101:
+        genSun()
+        genCloud()
+        break
+      // 少云
+      case 102:
+        genSun()
+        genCloud()
+        break
+      // 白天阴天
+      case 104:
+        genHeavy()
+        break
       // 大风
       case 162:
         genSun()
@@ -195,11 +214,7 @@ class weatherWidget {
       case 100:
         genSun()
         break
-      // 白天多云
-      case 104:
-        genSun()
-        genCloud()
-        break
+
       // 晚上阴天
       case 154:
         genMoon2()

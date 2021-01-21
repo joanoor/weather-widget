@@ -27,7 +27,6 @@ const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
   mode: 'production',
-
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     host: 'localhost',
