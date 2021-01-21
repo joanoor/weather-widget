@@ -27,7 +27,6 @@ const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
   mode: 'production',
-  plugins: [new webpack.ProgressPlugin()],
 
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
@@ -71,6 +70,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10 * 1024,
+          esModule: false,
         },
       },
     ],

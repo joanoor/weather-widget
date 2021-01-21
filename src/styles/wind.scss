@@ -1,60 +1,71 @@
+.xt-windmill-wrapper {
+  position: absolute;
+  margin: 0 auto;
+  text-align: center;
+  width: calc(100% - 1.6em);
+  height: 100%;
+  // overflow: hidden;
+  display: block;
+  z-index: -1;
+}
 .xt-windmill-pole-wrap {
   position: absolute;
-  bottom: -5px;
-  left: 65%;
+  transform: scale(0.85);
+  bottom: -3px;
+  left: 240px;
   perspective: 70px;
-  // z-index: 50;
+  z-index: 50;
+}
+
+.xt-windmill-pole-wrap.back-left {
+  left: 50px;
+  z-index: 1;
+  transform: scale(0.6);
+  transform-origin: center bottom;
+}
+
+.xt-windmill-pole-wrap.right {
+  left: 180px;
+  transform: scale(0.4);
+  transform-origin: center bottom;
 }
 .xt-windmill-pole {
   position: absolute;
   bottom: 0;
-  border: 3px solid #000;
   width: 14px;
   height: 220px;
   left: -7px;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.3);
   transform: rotateX(15deg);
   transform-origin: center bottom;
 }
-.xt-windmill-pole-wrap.back-left {
-  left: 50px;
-  z-index: 1;
-  transform: scale(0.7);
-  transform-origin: center bottom;
-}
-.xt-windmill-pole-wrap.right {
-  left: auto;
-  right: 85px;
-  transform: scale(0.85);
-  transform-origin: center bottom;
-}
-
 .xt-windmill-pole-ellipses {
   position: absolute;
-  bottom: 114px;
-  left: 65%;
+  bottom: 100px;
+  left: 240px;
+  transform: scale(0.85);
   z-index: 51;
-}
-
-.xt-windmill-pole-ellipses.back-left {
-  left: 50px;
-  bottom: 80px;
-  z-index: 3;
-  transform: scale(0.7);
   transform-origin: center bottom;
 }
+.xt-windmill-pole-ellipses.back-left {
+  left: 50px;
+  bottom: 70px;
+  z-index: 3;
+  transform: scale(0.6);
+  transform-origin: center bottom;
+}
+
 .xt-windmill-pole-ellipses.right {
-  left: auto;
-  right: 85px;
-  bottom: 100px;
-  transform: scale(0.85);
+  left: 180px;
+  bottom: 45px;
+  transform: scale(0.4);
   transform-origin: center bottom;
 }
 .xt-windmill-pole-ellipses-wrapper {
   position: absolute;
   top: 0;
   left: 0;
-  // animation: rotate-ellipses 6s linear infinite;
+  animation: rotate-ellipses 6s linear infinite;
   -webkit-animation-play-state: paused;
   -moz-animation-play-state: paused;
   animation-play-state: paused;
@@ -65,7 +76,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  // animation: rotate-ellipses 2s linear infinite;
+  animation: rotate-ellipses 2s linear infinite;
   -webkit-transition: all 300ms linear;
   transition: all 300ms linear;
   -webkit-animation-play-state: running;
@@ -79,46 +90,52 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 1);
-  border: 2px solid #000;
+  background-color: white;
+  // border: 2px solid #000;
   z-index: 2;
 }
-.xt-ellipses {
+.ellipses {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 1;
+  // border: solid 1px yellow;
 }
-.xt-ellipses span {
+.ellipses span {
   position: absolute;
   top: -70px;
   left: -5px;
   width: 10px;
   height: 70px;
   border-radius: 100%;
-  background-color: rgba(255, 255, 255, 0.4);
-  border: 2px solid #000;
+  background-color: rgba(255, 255, 255, 0.3);
+  // border: 2px solid #000;
   transform-origin: center bottom;
 }
-.xt-ellipses span:nth-child(2) {
+.ellipses span:nth-child(2) {
   transform: rotate(120deg);
 }
-.xt-ellipses span:nth-child(3) {
+.ellipses span:nth-child(3) {
   transform: rotate(240deg);
 }
-.xt-ellipses.delayed span {
+.ellipses.delayed span {
   transform: rotate(60deg);
 }
-.xt-ellipses.delayed span:nth-child(2) {
+.ellipses.delayed span:nth-child(2) {
   transform: rotate(180deg);
 }
-.xt-ellipses.delayed span:nth-child(3) {
+.ellipses.delayed span:nth-child(3) {
   transform: rotate(300deg);
 }
-.xt-windmill-pole-ellipses-wrapper {
+body.slow-wind .xt-windmill-pole-ellipses-wrapper {
   -webkit-animation-play-state: running;
   -moz-animation-play-state: running;
   animation-play-state: running;
+}
+body.slow-wind .xt-windmill-pole-ellipses-wrap {
+  -webkit-animation-play-state: paused;
+  -moz-animation-play-state: paused;
+  animation-play-state: paused;
 }
 @keyframes rotate-ellipses {
   0% {

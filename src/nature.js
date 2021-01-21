@@ -137,38 +137,69 @@ export const genMeteor = () => {
 
 // 风车（刮风）
 export const genWind = () => {
-  let $wind = $(`
-    <div class="xt-windmill-pole-wrap">
-      <div class="xt-windmill-pole"></div>
-    </div>
-    <div class="xt-windmill-pole-ellipses">
-      <div class="xt-windmill-pole-ellipses-wrapper">
-        <div class="xt-windmill-pole-ellipses-wrap">
-          <div class="xt-windmill-pole-ellipses-center"></div>
-          <div class="xt-ellipses">
-            <span></span>
-            <span></span>
-            <span></span>
+  let $wind = $(
+    `
+    <div class="xt-windmill-wrapper">
+      <div class="xt-windmill-pole-wrap">
+        <div class="xt-windmill-pole"></div>
+      </div>
+      <div class="xt-windmill-pole-ellipses">
+        <div class="xt-windmill-pole-ellipses-wrapper">
+          <div class="xt-windmill-pole-ellipses-wrap">
+            <div class="xt-windmill-pole-ellipses-center"></div>
+            <div class="ellipses">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="xt-windmill-pole-wrap right">
+        <div class="xt-windmill-pole"></div>
+      </div>
+      <div class="xt-windmill-pole-ellipses right">
+        <div class="xt-windmill-pole-ellipses-wrapper">
+          <div class="xt-windmill-pole-ellipses-wrap">
+            <div class="xt-windmill-pole-ellipses-center"></div>
+            <div class="ellipses delayed">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="xt-windmill-pole-wrap back-left">
+        <div class="xt-windmill-pole"></div>
+      </div>
+      <div class="xt-windmill-pole-ellipses back-left">
+        <div class="xt-windmill-pole-ellipses-wrapper">
+          <div class="xt-windmill-pole-ellipses-wrap">
+            <div class="xt-windmill-pole-ellipses-center"></div>
+            <div class="ellipses delayed">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    
-    <div class="xt-windmill-pole-wrap back-left">
-      <div class="xt-windmill-pole"></div>
-    </div>
-    <div class="xt-windmill-pole-ellipses back-left">
-      <div class="xt-windmill-pole-ellipses-wrapper">
-        <div class="xt-windmill-pole-ellipses-wrap">
-          <div class="xt-windmill-pole-ellipses-center"></div>
-          <div class="xt-ellipses delayed">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-      </div>
-    </div>
-  `)
+  `
+  )
   $('#weather-detail').append($wind)
+}
+
+// 大雾
+export const genFog = () => {
+  let $fog = $(
+    `
+    <div class="xt-fog-container">
+      <div class="xt-fog-img xt-fog-img-first"></div>
+      <div class="xt-fog-img xt-fog-img-second"></div>
+    </div>
+    `
+  )
+  $('#weather-detail').append($fog)
 }

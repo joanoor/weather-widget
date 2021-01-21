@@ -1,20 +1,29 @@
-.xt-fog {
-  width: 100vw;
-  height: 100vh;
+.xt-fog-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
-.xt-fog1 {
-  background: url('../imgs/fog1.png') repeat-x;
+
+.xt-fog-img {
+  position: absolute;
+  height: 100vh;
+  width: 300vw;
+}
+
+.xt-fog-img-first {
+  background: url('../imgs/fog-1.png') repeat-x;
   background-size: contain;
   background-position: center;
-  -webkit-animation: marquee 60s linear infinite;
   animation: marquee 60s linear infinite;
 }
 
-.xt-fog2 {
-  background: url('../imgs/fog2.png') repeat-x;
+.xt-fog-img-second {
+  background: url('../imgs/fog-2.png') repeat-x;
   background-size: contain;
   background-position: center;
-  -webkit-animation: marquee 40s linear infinite;
   animation: marquee 40s linear infinite;
 }
 

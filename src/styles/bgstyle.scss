@@ -2,7 +2,8 @@
 
 // 晴天时白天的背景
 .xt-fineday {
-  background: url('../imgs/100d.png') no-repeat;
+  // background: url('../imgs/100d.png') no-repeat;
+  background: linear-gradient(rgb(40, 105, 233), rgb(121, 191, 255));
   background-size: cover;
 }
 
