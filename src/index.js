@@ -1,19 +1,8 @@
 import $ from 'zepto-webpack'
 import './index.scss'
 import { dayjs, autoImport, setCurve, carouselBlock } from './utils'
-import {
-  genMinaCloud,
-  genMinaHeavy,
-  genMinaSun,
-  genMinaMoon,
-  genMinaMoon2,
-  genMinaSnow,
-  genMinaRain,
-  genMinaStarry,
-  genMinaMeteor,
-  genMinaWind,
-  genMinaFog,
-} from './nature'
+import MINA from './nature'
+
 autoImport(require.context('./styles', false, /\w+\.(scss|css)$/)) // 自动引入样式
 
 const URL =
@@ -174,78 +163,16 @@ class weatherWidget {
       </div>
       `
     )
-    this.createNINA(data.nowWeather.code)
+    this.createNINA(data.nowWeather.mina)
     this.createBaseInfo(data)
   }
 
   // 创建元素动画
   createNINA(data) {
-    switch (parseInt(data)) {
-      // 白天多云
-      case 101:
-        genMinaSun()
-        genMinaCloud()
-        break
-      // 少云
-      case 102:
-        genMinaSun()
-        genMinaCloud()
-        break
-      // 白天阴天
-      case 104:
-        genMinaHeavy()
-        break
-      // 大风
-      case 162:
-        genMinaSun()
-        genMinaWind()
-        break
-      // 雾天
-      case 163:
-        genMinaSun()
-        genMinaFog()
-        break
-      // 雪天
-      case 164:
-        genMinaSnow()
-        break
-      // 雨天
-      case 305:
-      case 306:
-      case 307:
-        genMinaHeavy()
-        genMinaWind()
-        genMinaRain()
-        break
-      // 晴
-      case 100:
-        genMinaSun()
-        break
-
-      // 晚上阴天
-      case 154:
-        genMinaMoon2()
-        genMinaCloud()
-        break
-      // 月亮
-      case 168:
-        genMinaMoon()
-        break
-      // 月牙
-      case 169:
-        genMinaMoon2()
-        break
-      // 星空
-      case 170:
-        genMinaMoon()
-        genMinaStarry()
-        break
-      // 流星
-      case 171:
-        genMinaMoon2()
-        genMinaMeteor()
-        break
-    }
+    let arr = data.split(',')
+    arr.forEach(v => {
+      MINA[v]()
+    })
   }
 
   createBaseInfo(data) {
