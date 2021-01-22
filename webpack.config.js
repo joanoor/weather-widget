@@ -26,7 +26,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
-  mode: 'production',
+  output: {
+    filename: 'bundle.js',
+  },
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     host: 'localhost',

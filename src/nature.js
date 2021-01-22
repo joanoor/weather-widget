@@ -1,30 +1,40 @@
-// 云彩
-export const genCloud = () => {
+// 这里是widget上面的动画效果
+// 白云
+export const genMinaCloud = () => {
   let $cloud = $(`<div class="xt-cloud1 xt-weather-zindex90">
   </div>
   <div class="xt-cloud2 xt-weather-zindex80">
   </div>`)
   $('#weather-detail').append($cloud)
 }
+// 乌云
+// export const genMinaCloud2 = () => {
+//   let $cloud = $(`<div class="xt-cloud11 xt-weather-zindex90">
+//   </div>
+//   <div class="xt-cloud22 xt-weather-zindex80">
+//   </div>`)
+//   $('#weather-detail').append($cloud)
+// }
 
 // 阴天
-export const genHeavy = () => {
-  let img = require('./imgs/weathericon/104.png')
-  $('#weather-detail').append(`<img class="xt-cloud11" src="${img}"/>`)
-}
-// 阴天2
-export const genOvercast = () => {
-  $('#weather-detail').addClass('xt-weather-filter')
+export const genMinaHeavy = () => {
+  // let img = require('./imgs/weathericon/104.png')
+  // $('#weather-detail').append(`<img class="xt-cloud11" src="${img}"/>`)
+  let $cloud = $(`<div class="xt-cloud11 xt-weather-zindex90">
+  </div>
+  <div class="xt-cloud22 xt-weather-zindex80">
+  </div>`)
+  $('#weather-detail').append($cloud)
 }
 
 // 太阳
-export const genSun = () => {
+export const genMinaSun = () => {
   let $sun = $(`<div class="xt-sun xt-weather-zindex100"></div>`)
   $('#weather-detail').append($sun)
 }
 
 // 月亮（圆月）
-export const genMoon = () => {
+export const genMinaMoon = () => {
   let $moon = $(`<div class="xt-moon"></div>`)
   for (let i = 0; i < 11; i++) {
     let $mooncrater = $(
@@ -36,7 +46,7 @@ export const genMoon = () => {
 }
 
 // 月亮（月牙）
-export const genMoon2 = () => {
+export const genMinaMoon2 = () => {
   let $moon = $(
     `
     <svg t="1610938534319" class="xt-moon2" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2127" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64">
@@ -57,7 +67,7 @@ export const genMoon2 = () => {
 }
 
 // 雪
-export const genSnow = () => {
+export const genMinaSnow = () => {
   const count = 10
   for (let i = 0; i < count; i++) {
     let $bigSnow = $(`<div class="xt-snow xt-bigsnow-${i + 1}"></div>`)
@@ -68,8 +78,8 @@ export const genSnow = () => {
 }
 
 // 雨
-export const genRain = () => {
-  const counter = 100
+export const genMinaRain = () => {
+  const counter = 50
   for (let i = 0; i < counter; i++) {
     let $hr = $('<hr />')
     if (i == counter - 1) {
@@ -86,7 +96,7 @@ export const genRain = () => {
 }
 
 // 星空
-export const genStarry = () => {
+export const genMinaStarry = () => {
   $('#weather-detail').append(
     `
     <div class="xt-stars"></div>
@@ -122,7 +132,7 @@ export const genStarry = () => {
 }
 
 // 流星
-export const genMeteor = () => {
+export const genMinaMeteor = () => {
   for (let i = 0; i < 3; i++) {
     let $meteor = $('<div class="xt-star2"></div>')
     if (i === 1) {
@@ -139,7 +149,7 @@ export const genMeteor = () => {
 }
 
 // 风车（刮风）
-export const genWind = () => {
+export const genMinaWind = () => {
   let $wind = $(
     `
     <div class="xt-windmill-wrapper">
@@ -195,7 +205,7 @@ export const genWind = () => {
 }
 
 // 大雾
-export const genFog = () => {
+export const genMinaFog = () => {
   let $fog = $(
     `
     <div class="xt-fog-container">

@@ -1,19 +1,18 @@
 import $ from 'zepto-webpack'
 import './index.scss'
-import { dayjs, autoImport, setCurve, carouselBlock, notify } from './utils'
+import { dayjs, autoImport, setCurve, carouselBlock } from './utils'
 import {
-  genCloud,
-  genOvercast,
-  genSun,
-  genMoon,
-  genMoon2,
-  genSnow,
-  genRain,
-  genStarry,
-  genMeteor,
-  genWind,
-  genFog,
-  genHeavy,
+  genMinaCloud,
+  genMinaHeavy,
+  genMinaSun,
+  genMinaMoon,
+  genMinaMoon2,
+  genMinaSnow,
+  genMinaRain,
+  genMinaStarry,
+  genMinaMeteor,
+  genMinaWind,
+  genMinaFog,
 } from './nature'
 autoImport(require.context('./styles', false, /\w+\.(scss|css)$/)) // 自动引入样式
 
@@ -22,6 +21,7 @@ const URL =
 
 const MODE = navigator.userAgent.toLowerCase()
 const isDev = process.env.NODE_ENV === 'development'
+console.log(MODE)
 console.log('process.env.NODE_ENV', process.env.NODE_ENV)
 const BGTYPE = {
   CLOUDYDAY: 'xt-cloudday', // 白天，多云的背景
@@ -50,58 +50,66 @@ const initEl = () => {
 class weatherWidget {
   constructor(data) {
     this.responseData = data
-    this.setBG(data)
-    // this.getLocation(data)
-
-    this.initElement(data)
+    this.setBG(data) // 设置界面背景
+    this.initElement(data) // 初始化界面元素
   }
   setBG(data) {
     const sunRiseTime = new Date(`${data.todayWeather.date} 06:54`).getTime()
     const sunGlowTime = new Date(`${data.todayWeather.date} 17:30`).getTime()
     const nowTime = new Date().getTime()
     if (nowTime >= sunRiseTime && nowTime <= sunGlowTime) {
-      if (data.nowWeather.code === '104') {
-        this.color1 = 'rgb(111, 124, 133)'
-        this.color2 = 'rgb(145, 155, 159)'
-        this.ACTIVECLASS = BGTYPE.HEAVYDAY
-      } else if (data.nowWeather.code === '101') {
-        this.ACTIVECLASS = BGTYPE.CLOUDYDAY
-      } else if (data.nowWeather.code === '100') {
-        this.ACTIVECLASS = BGTYPE.FINEDAY
+      switch (parseInt(data.nowWeather.code)) {
+        case 100:
+          this.ACTIVECLASS = BGTYPE.FINEDAY
+          break
+        case 104:
+          this.color1 = 'rgb(111, 124, 133)'
+          this.color2 = 'rgb(145, 155, 159)'
+          this.ACTIVECLASS = BGTYPE.HEAVYDAY
+          break
+        case 101:
+        case 102:
+        case 103:
+          this.ACTIVECLASS = BGTYPE.CLOUDYDAY
+          break
+        case 305:
+        case 306:
+        case 307:
+          this.linecolor = 'rgb(111, 124, 133)'
+          this.color1 = 'rgb(111, 124, 133)'
+          this.color2 = 'transparent'
+          this.ACTIVECLASS = BGTYPE.HEAVYDAY
+          break
+        default:
+          this.ACTIVECLASS = BGTYPE.FINEDAY
       }
     } else {
-      if (data.nowWeather.code === '154') {
-        this.ACTIVECLASS = BGTYPE.NIGHT
+      switch (data.nowWeather.code) {
+        case 150:
+          this.ACTIVECLASS = BGTYPE.STARRY
+          break
+        case 153:
+          this.ACTIVECLASS = BGTYPE.NIGHT
+          break
+        case 154:
+          this.ACTIVECLASS = BGTYPE.HEAVYDAY
+          break
+        case 350:
+        case 351:
+        case 399:
+          this.ACTIVECLASS = BGTYPE.HEAVYDAY
+          break
+        case 456:
+        case 457:
+        case 499:
+          this.ACTIVECLASS = BGTYPE.HEAVYDAY
+          break
+        default:
+          this.ACTIVECLASS = BGTYPE.NIGHT
       }
     }
   }
-  getLocation(data) {
-    let _this = this
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        function (position) {
-          _this.handleSuccess(position, data)
-        },
-        function (e) {
-          _this.handleError(e, data)
-        },
-        {
-          timeout: 3000,
-        }
-      )
-    } else {
-      alert('Geolocation is not supported by this browser!')
-    }
-  }
-  handleSuccess(position, data) {
-    const { latitude, longitude } = position.coords
-    this.initElement(data)
-  }
-  handleError(e, data) {
-    this.initElement(data)
-    // alert('不好意思，获取位置失败，请稍候重试')
-    notify('不好意思，获取位置失败，请稍候重试')
-  }
+
   initElement(data) {
     let _this = this
     let img = require(`./imgs/weathericon/${data.nowWeather.code}.png`)
@@ -113,7 +121,7 @@ class weatherWidget {
         <img src="${img}"></img>
         <span>${data.nowWeather.temp}</span>
       </div>
-      <div class="xt-weather-container-normal xt-weather-absolute" id="weather-detail">
+      <div class="xt-weather-container-normal" id="weather-detail">
       </div>
       `
     )
@@ -135,30 +143,26 @@ class weatherWidget {
         })
       }
     }
-
     // 显示
     $('#weather-basic').on('mouseenter', function () {
       $('#weather-detail').toggle(true).addClass(_this.ACTIVECLASS)
       $('#weather-detail').ready(function () {
         carouselBlock(data.weekWeather)
-        setCurve(data.hourlyWeather, _this.color1, _this.color2)
+        setCurve(
+          data.hourlyWeather,
+          _this.linecolor,
+          _this.color1,
+          _this.color2
+        )
       })
     })
 
     // 隐藏
-    $('#xt-weather').on('mouseleave', function () {
-      $('#weather-detail').toggle(false).removeClass(_this.ACTIVECLASS)
-    })
-
-    // $('#weather-detail').append(
-    //   `
-    //   <div class="xt-weather-title">
-    //     <div class="xt-weather-location xt-weather-flex xt-weather-flex-align-center">
-    //     </div>
-    //     <span class="xt-weather-time">${dayjs().format('YYYY年MM月DD日')}</span>
-    //   </div>
-    //   `
-    // )
+    if (!isDev) {
+      $('#xt-weather').on('mouseleave', function () {
+        $('#weather-detail').toggle(false).removeClass(_this.ACTIVECLASS)
+      })
+    }
     $('#weather-detail').append(
       `
       <div class="xt-weather-title">
@@ -179,64 +183,67 @@ class weatherWidget {
     switch (parseInt(data)) {
       // 白天多云
       case 101:
-        genSun()
-        genCloud()
+        genMinaSun()
+        genMinaCloud()
         break
       // 少云
       case 102:
-        genSun()
-        genCloud()
+        genMinaSun()
+        genMinaCloud()
         break
       // 白天阴天
       case 104:
-        genHeavy()
+        genMinaHeavy()
         break
       // 大风
       case 162:
-        genSun()
-        genWind()
+        genMinaSun()
+        genMinaWind()
         break
       // 雾天
       case 163:
-        genSun()
-        genFog()
+        genMinaSun()
+        genMinaFog()
         break
       // 雪天
       case 164:
-        genSnow()
+        genMinaSnow()
         break
       // 雨天
+      case 305:
+      case 306:
       case 307:
-        genOvercast()
-        genRain()
+        genMinaHeavy()
+        genMinaWind()
+        genMinaRain()
         break
       // 晴
       case 100:
-        genSun()
+        genMinaSun()
         break
 
       // 晚上阴天
       case 154:
-        genMoon2()
-        genCloud()
+        genMinaMoon2()
+        genMinaCloud()
         break
       // 月亮
       case 168:
-        genMoon()
+        genMinaMoon()
         break
       // 月牙
       case 169:
-        genMoon2()
+        genMinaMoon2()
         break
       // 星空
       case 170:
-        genMoon()
-        genStarry()
+        genMinaMoon()
+        genMinaStarry()
         break
       // 流星
       case 171:
-        genMoon2()
-        genMeteor()
+        genMinaMoon2()
+        genMinaMeteor()
         break
     }
   }
@@ -278,6 +285,8 @@ class weatherWidget {
   }
 }
 
-// initEl()
+if (isDev) {
+  initEl()
+}
 
 export default initEl

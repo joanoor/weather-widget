@@ -1,8 +1,8 @@
-### xt-weather-widget
+## xt-weather-widget
 A weather widget based on zepto.
 
-### How to use?
-1. npm i xt-weather-widget
-2. add ```<div class="xt-weather" id="xt-weather"></div>``` in any place you want to put it.
+## Usage
+1. `$ npm i xt-weather-widget`
+2. Add ```<div class="xt-weather" id="xt-weather"></div>``` in any place you want to put it.
 3. ```import initEl from 'xt-weather-widget'```
-4. after page loaded.You can perform ```initEl()```
+4. After page loaded. You can perform ```initEl()```

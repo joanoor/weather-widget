@@ -45,8 +45,9 @@ ol {
 }
 
 .xt-weather {
+  position: relative;
   #weather-basic {
-    padding-bottom: 0.4em;
+    overflow: hidden;
     > span {
       display: inline-block;
       &:first-child {
@@ -63,6 +64,7 @@ ol {
     }
   }
   .xt-weather-container-normal {
+    position: absolute;
     display: none;
     box-sizing: border-box;
     overflow: hidden;
@@ -71,6 +73,8 @@ ol {
     border-radius: 0.2em;
     padding: 0.8em;
     .xt-weather-title {
+      position: relative;
+      z-index: 80;
       font-size: 0.9em;
       .xt-weather-location-icon {
         width: 1.1em;

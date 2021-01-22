@@ -5,6 +5,7 @@ require('echarts/lib/chart/line')
 export const dayjs = require('dayjs')
 dayjs.extend(isToday)
 dayjs.extend(isTomorrow)
+
 // 自动引入
 export const autoImport = files => {
   files.keys().map(files)
@@ -13,6 +14,7 @@ export const autoImport = files => {
 // 创建曲线
 export const setCurve = (
   data,
+  linecolor = 'rgba(255,255,255,0.7)',
   color1 = 'rgb(62,118,196)',
   color2 = 'transparent'
 ) => {
@@ -89,7 +91,6 @@ export const setCurve = (
               offset: 0,
               color: color1, // 0% 处的颜色
             },
-
             {
               offset: 1,
               color: color2, // 100% 处的颜色
@@ -98,7 +99,7 @@ export const setCurve = (
         },
         lineStyle: {
           normal: {
-            color: 'rgba(255,255,255,0.7)',
+            color: linecolor,
             width: 0.5,
           },
         },
@@ -123,29 +124,31 @@ export const carouselBlock = data => {
     $('.xt-weather-forecast-swiper-right').toggle(false)
   })
   let theight = $('.xt-weather-forecast-container').height()
-  for (let item of data) {
-    let img = require(`./imgs/weathericon/${item.code}.png`)
-    let $block = $(
-      `
-      <li class="xt-weather-forecast-swiper-item">
-      <div class="xt-weather-flex xt-weather-flex-just-between">
-        <div class="weather-week">${item.date2} ${
-        dayjs(item.date).isToday()
-          ? '今天'
-          : dayjs(item.date).isTomorrow()
-          ? '明天'
-          : item.week
-      }</div>
-        <div class="weather-text">${item.text}</div>
-      </div>
-        <div class="xt-weather-flex xt-weather-flex-just-between xt-weather-flex-align-center">
-          <img class="weather-icon" src="${img}"/>
-          <div>${item.low.split('℃')[0] + '/' + item.high}</div>
+  if ($('.weather-week').length === 0) {
+    for (let item of data) {
+      let img = require(`./imgs/weathericon/${item.code}.png`)
+      let $block = $(
+        `
+        <li class="xt-weather-forecast-swiper-item">
+        <div class="xt-weather-flex xt-weather-flex-just-between">
+          <div class="weather-week">${item.date2} ${
+          dayjs(item.date).isToday()
+            ? '今天'
+            : dayjs(item.date).isTomorrow()
+            ? '明天'
+            : item.week
+        }</div>
+          <div class="weather-text">${item.text}</div>
         </div>
-      </li>
-      `
-    )
-    $(`.xt-weather-forecast-swiper`).append($block)
+          <div class="xt-weather-flex xt-weather-flex-just-between xt-weather-flex-align-center">
+            <img class="weather-icon" src="${img}"/>
+            <div>${item.low.split('℃')[0] + '/' + item.high}</div>
+          </div>
+        </li>
+        `
+      )
+      $(`.xt-weather-forecast-swiper`).append($block)
+    }
   }
   $('.xt-weather-forecast-swiper-left').attr(
     'style',
@@ -158,24 +161,10 @@ export const carouselBlock = data => {
   new Swiper().init()
 }
 
-// 提示
-export const notify = (str, color = 'rgb(60, 80, 152)', t = 3) => {
-  let $el = $(
-    `
-    <div style="position:fixed;margin:auto;top:0;left:50%;transform:translateX(-50%);padding:0.6em 1em;background-color:${color};color:white"></div>
-    `
-  )
-  $('body').append($el)
-  setTimeout(() => {
-    $('body').remove($el)
-  }, t * 1000)
-}
-
 // 轮播类
 class Swiper {
   constructor() {
     this.w = $('.xt-weather-forecast-swiper-item').width()
-    console.log('此时的this.w', this.w)
     this.num = 0
     this.len =
       $('.xt-weather-forecast-swiper .xt-weather-forecast-swiper-item').length -
@@ -188,7 +177,6 @@ class Swiper {
     $('.xt-weather-forecast-swiper-left').click(() => {
       this.num--
       if (this.num < 0) {
-        // this.num = this.len
         this.num = 0
         return
       }
