@@ -43,8 +43,8 @@ class weatherWidget {
     this.initElement(data) // 初始化界面元素
   }
   setBG(data) {
-    const sunRiseTime = new Date(`${data.todayWeather.date} 06:54`).getTime()
-    const sunGlowTime = new Date(`${data.todayWeather.date} 17:30`).getTime()
+    const sunRiseTime = new Date(`${data.todayWeather.date} 06:00`).getTime()
+    const sunGlowTime = new Date(`${data.todayWeather.date} 18:00`).getTime()
     const nowTime = new Date().getTime()
     if (nowTime >= sunRiseTime && nowTime <= sunGlowTime) {
       switch (parseInt(data.nowWeather.code)) {

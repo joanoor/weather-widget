@@ -9,7 +9,7 @@ export default {
     $('#weather-detail').append($cloud)
   },
 
-  // 阴天
+  // 乌云
   genMinaHeavy: () => {
     // let img = require('./imgs/weathericon/104.png')
     // $('#weather-detail').append(`<img class="xt-cloud11" src="${img}"/>`)
