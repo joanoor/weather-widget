@@ -9,9 +9,9 @@ const URL =
   'http://forecast.ecitydata.com:8666/test-open-api/portal/weather/visual'
 
 const MODE = navigator.userAgent.toLowerCase()
-const isDev = process.env.NODE_ENV === 'development'
+const isDev = process.env.NODE_ENV2 === 'development'
 console.log(MODE)
-console.log('process.env.NODE_ENV', process.env.NODE_ENV)
+console.log('process.env.NODE_ENV2', process.env.NODE_ENV2)
 const BGTYPE = {
   CLOUDYDAY: 'xt-cloudday', // 白天，多云的背景
   HEAVYDAY: 'xt-heavyday', // 白天，阴的背景
@@ -20,7 +20,8 @@ const BGTYPE = {
   NIGHT: 'xt-night', // 晴天夜晚（没有星星）的背景
 }
 
-const initEl = () => {
+const initEl = option => {
+  console.log('此时的Option', option)
   $.ajax({
     type: 'GET',
     url: URL,
@@ -30,17 +31,17 @@ const initEl = () => {
           v.time2 = v.time.split(' ')[1]
           v.time = dayjs(v.time).format('MM/DD') + ' ' + v.time.split(' ')[1]
         })
-        new weatherWidget(res.data)
+        new weatherWidget(res.data, option)
       }
     },
   })
 }
 
 class weatherWidget {
-  constructor(data) {
+  constructor(data, option) {
     this.responseData = data
     this.setBG(data) // 设置界面背景
-    this.initElement(data) // 初始化界面元素
+    this.initElement(data, option) // 初始化界面元素
   }
   setBG(data) {
     const sunRiseTime = new Date(`${data.todayWeather.date} 06:00`).getTime()
@@ -99,60 +100,56 @@ class weatherWidget {
     }
   }
 
-  initElement(data) {
-    let _this = this
+  initElement(data, option) {
+    this.$xtWeather = $(`#${option.id}`)
     let img = require(`./imgs/weathericon/${data.nowWeather.code}.png`)
-    $('#xt-weather').append(
-      `
-      <div class="xt-weather-hover xt-weather-flex xt-weather-flex-align-center" id="weather-basic">
-        <span>${data.city}</span>
-        <span></span>
-        <img src="${img}"></img>
-        <span>${data.nowWeather.temp}</span>
-      </div>
-      <div class="xt-weather-container-normal" id="weather-detail">
-      </div>
-      `
-    )
+    let $basic = $(`
+    <div class="xt-weather-hover xt-weather-basic xt-weather-flex xt-weather-flex-align-center" id="${option.id}-basic">
+      <span>${data.city}</span>
+      <span></span>
+      <img src="${img}"></img>
+      <span>${data.nowWeather.temp}</span>
+    </div>
+    `)
+    if (option.showBasic) {
+      this.$xtWeather.append($basic)
+    }
+    let $normal = $(`<div class="${option.id}1-container-normal xt-weather-container-normal" id="${option.id}-detail">
+    </div>`)
+    console.log('option.beAbsolute', option.beAbsolute)
+    $(`.${option.id}1-container-normal`).css({
+      position: option.beAbsolute,
+    })
+
+    this.$xtWeather.append($normal)
+    this.$xtDetail = $(`#${option.id}-detail`)
+
     // 设置大小尺寸
     if (!MODE.includes('mobile')) {
-      $('.xt-weather-container-normal').css({
+      $(`.${option.id}1-container-normal`).css({
         width: '320px',
+        position: option.beAbsolute,
       })
     } else {
       if (!MODE.includes('ipad')) {
-        $('.xt-weather-container-normal').css({
+        $(`.${option.id}1-container-normal`).css({
           width: '100vw',
           height: '100vh',
+          position: option.beAbsolute,
         })
       } else {
-        $('.xt-weather-container-normal').css({
+        $(`.${option.id}1-container-normal`).css({
           width: window.innerWidth,
           height: window.innerHeight,
+          position: option.beAbsolute,
         })
       }
     }
-    // 显示
-    $('#weather-basic').on('mouseenter', function () {
-      $('#weather-detail').toggle(true).addClass(_this.ACTIVECLASS)
-      $('#weather-detail').ready(function () {
-        carouselBlock(data.weekWeather)
-        setCurve(
-          data.hourlyWeather,
-          _this.linecolor,
-          _this.color1,
-          _this.color2
-        )
-      })
-    })
-
-    // 隐藏
-    if (!isDev) {
-      $('#xt-weather').on('mouseleave', function () {
-        $('#weather-detail').toggle(false).removeClass(_this.ACTIVECLASS)
-      })
+    if (option.showBasic) {
+      this.$xtDetail.addClass('noshowweather')
     }
-    $('#weather-detail').append(
+
+    this.$xtDetail.append(
       `
       <div class="xt-weather-title">
         <div class="xt-weather-location xt-weather-flex xt-weather-flex-align-center">
@@ -163,21 +160,22 @@ class weatherWidget {
       </div>
       `
     )
-    this.createNINA(data.nowWeather.mina)
-    this.createBaseInfo(data)
+    this.createNINA(data.nowWeather.mina, `#${option.id}-detail`)
+    this.createBaseInfo(data, option)
   }
 
   // 创建元素动画
-  createNINA(data) {
+  createNINA(data, id) {
     let arr = data.split(',')
     arr.forEach(v => {
-      MINA[v]()
+      MINA[v](id)
     })
   }
 
-  createBaseInfo(data) {
+  createBaseInfo(data, option) {
+    let _this = this
     const { tips, nowWeather, todayWeather } = data
-    $('#weather-detail').append(
+    this.$xtDetail.append(
       `
       <div class="xt-weather-real">
         <div class="xt-weather-real-block">
@@ -200,20 +198,72 @@ class weatherWidget {
       <div class="xt-weather-forecast" >
         ${tips}
       </div>
-      <div class="xt-weather-forecast-container">
-        <ul class="xt-weather-forecast-swiper"></ul>
-        <div class="xt-weather-forecast-swiper-left xt-weather-hover"></div>
-        <div class="xt-weather-forecast-swiper-right xt-weather-hover"></div>
+      <div class="${
+        option.id
+      }1-forecast-container xt-weather-forecast-container">
+        <ul class="${
+          option.id
+        }1-forecast-swiper xt-weather-forecast-swiper"></ul>
+        <div class="${
+          option.id
+        }1-forecast-swiper-left xt-weather-forecast-swiper-left xt-weather-hover"></div>
+        <div class="${
+          option.id
+        }1-forecast-swiper-right xt-weather-forecast-swiper-right xt-weather-hover"></div>
       </div>
-      <div class="xt-weather-realcurve" id="realcurve"></div>
+      <div class="xt-weather-realcurve" id="${option.id}-curve"></div>
       <div class="xt-weather-datasource">数据服务来自满星数据</div>
       `
     )
+
+    // 显示
+    if (option.showBasic) {
+      $(`#${option.id}-basic`).on('mouseenter', function () {
+        _this.$xtDetail.toggle(true).addClass(_this.ACTIVECLASS)
+        _this.$xtDetail.ready(function () {
+          carouselBlock(data.weekWeather, option)
+          setCurve(
+            `${option.id}-curve`,
+            data.hourlyWeather,
+            _this.linecolor,
+            _this.color1,
+            _this.color2
+          )
+        })
+      })
+      // 隐藏
+      // if (!isDev) {
+      this.$xtWeather.on('mouseleave', function () {
+        _this.$xtDetail.toggle(false).removeClass(_this.ACTIVECLASS)
+      })
+      // }
+    } else {
+      this.$xtDetail.toggle(true).addClass(_this.ACTIVECLASS)
+      this.$xtDetail.ready(function () {
+        carouselBlock(data.weekWeather, option)
+        setCurve(
+          `${option.id}-curve`,
+          data.hourlyWeather,
+          _this.linecolor,
+          _this.color1,
+          _this.color2
+        )
+      })
+    }
   }
 }
 
 if (isDev) {
-  initEl()
+  initEl({
+    id: 'xt-weather',
+    showBasic: false,
+    beAbsolute: 'absolute',
+  })
+  initEl({
+    id: 'xt-weather2',
+    showBasic: true,
+    beAbsolute: 'absolute',
+  })
 }
 
 export default initEl

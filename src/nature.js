@@ -1,33 +1,33 @@
 // 这里是widget上面的动画效果
 export default {
   // 白云
-  genMinaCloud: () => {
+  genMinaCloud: id => {
     let $cloud = $(`<div class="xt-cloud1 xt-weather-zindex90">
     </div>
     <div class="xt-cloud2 xt-weather-zindex80">
     </div>`)
-    $('#weather-detail').append($cloud)
+    $(`${id}`).append($cloud)
   },
 
   // 乌云
-  genMinaHeavy: () => {
+  genMinaHeavy: id => {
     // let img = require('./imgs/weathericon/104.png')
-    // $('#weather-detail').append(`<img class="xt-cloud11" src="${img}"/>`)
+    // $(`${id}`).append(`<img class="xt-cloud11" src="${img}"/>`)
     let $cloud = $(`<div class="xt-cloud11 xt-weather-zindex90">
     </div>
     <div class="xt-cloud22 xt-weather-zindex80">
     </div>`)
-    $('#weather-detail').append($cloud)
+    $(`${id}`).append($cloud)
   },
 
   // 太阳
-  genMinaSun: () => {
+  genMinaSun: id => {
     let $sun = $(`<div class="xt-sun xt-weather-zindex100"></div>`)
-    $('#weather-detail').append($sun)
+    $(`${id}`).append($sun)
   },
 
   // 月亮（圆月）
-  genMinaMoon: () => {
+  genMinaMoon: id => {
     let $moon = $(`<div class="xt-moon"></div>`)
     for (let i = 0; i < 11; i++) {
       let $mooncrater = $(
@@ -35,11 +35,11 @@ export default {
       )
       $moon.append($mooncrater)
     }
-    $('#weather-detail').append($moon)
+    $(`${id}`).append($moon)
   },
 
   // 月亮（月牙）
-  genMinaMoon2: () => {
+  genMinaMoon2: id => {
     let $moon = $(
       `
       <svg t="1610938534319" class="xt-moon2" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2127" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64">
@@ -56,25 +56,22 @@ export default {
     //   )
     //   $moon.append($mooncrater)
     // }
-    $('#weather-detail').append($moon)
+    $(`${id}`).append($moon)
   },
 
   // 雪
-  genMinaSnow: () => {
+  genMinaSnow: id => {
     const count = 10
     for (let i = 0; i < count; i++) {
       let $bigSnow = $(`<div class="xt-snow xt-bigsnow-${i + 1}"></div>`)
       let $mediumSnow = $(`<div class="xt-snow xt-mediumsnow-${i + 1}"></div>`)
       let $smallSnow = $(`<div class="xt-snow xt-smallsnow-${i + 1}"></div>`)
-      $('#weather-detail')
-        .append($bigSnow)
-        .append($mediumSnow)
-        .append($smallSnow)
+      $(`${id}`).append($bigSnow).append($mediumSnow).append($smallSnow)
     }
   },
 
   // 雨
-  genMinaRain: () => {
+  genMinaRain: id => {
     const counter = 50
     for (let i = 0; i < counter; i++) {
       let $hr = $('<hr />')
@@ -87,13 +84,13 @@ export default {
           animationDelay: Math.random() * 5 + 's',
         })
       }
-      $('#weather-detail').append($hr)
+      $(`${id}`).append($hr)
     }
   },
 
   // 星空
-  genMinaStarry: () => {
-    $('#weather-detail').append(
+  genMinaStarry: id => {
+    $(`${id}`).append(
       `
       <div class="xt-stars"></div>
       `
@@ -128,7 +125,7 @@ export default {
   },
 
   // 流星
-  genMinaMeteor: () => {
+  genMinaMeteor: id => {
     for (let i = 0; i < 3; i++) {
       let $meteor = $('<div class="xt-star2"></div>')
       if (i === 1) {
@@ -140,12 +137,12 @@ export default {
         top: Math.random() * 10,
         left: Math.random() * 200 + 200,
       })
-      $('#weather-detail').append($meteor)
+      $(`${id}`).append($meteor)
     }
   },
 
   // 风车（刮风）
-  genMinaWind: () => {
+  genMinaWind: id => {
     let $wind = $(
       `
       <div class="xt-windmill-wrapper">
@@ -197,11 +194,11 @@ export default {
       </div>
     `
     )
-    $('#weather-detail').append($wind)
+    $(`${id}`).append($wind)
   },
 
   // 大雾
-  genMinaFog: () => {
+  genMinaFog: id => {
     let $fog = $(
       `
       <div class="xt-fog-container">
@@ -210,6 +207,6 @@ export default {
       </div>
       `
     )
-    $('#weather-detail').append($fog)
+    $(`${id}`).append($fog)
   },
 }

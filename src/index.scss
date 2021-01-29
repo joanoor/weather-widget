@@ -46,7 +46,7 @@ ol {
 
 .xt-weather {
   position: relative;
-  #weather-basic {
+  .xt-weather-basic {
     overflow: hidden;
     > span {
       display: inline-block;
@@ -63,9 +63,10 @@ ol {
       background-size: cover;
     }
   }
+
   .xt-weather-container-normal {
-    position: absolute;
-    display: none;
+    // position: absolute;
+    // display: none;
     box-sizing: border-box;
     overflow: hidden;
     z-index: 100;
@@ -209,4 +210,8 @@ ol {
       z-index: 80;
     }
   }
+}
+
+.noshowweather {
+  display: none;
 }

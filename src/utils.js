@@ -13,6 +13,7 @@ export const autoImport = files => {
 
 // 创建曲线
 export const setCurve = (
+  id,
   data,
   linecolor = 'rgba(255,255,255,0.7)',
   color1 = 'rgb(62,118,196)',
@@ -24,7 +25,8 @@ export const setCurve = (
     xdatas.push(v.time2)
     ydatas.push(parseFloat(v.temp.split('℃')[0]))
   })
-  let chart = echarts.init(document.getElementById('realcurve'))
+
+  let chart = echarts.init(document.getElementById(id))
   let option = {
     grid: {
       top: 5,
@@ -98,10 +100,8 @@ export const setCurve = (
           ]),
         },
         lineStyle: {
-          normal: {
-            color: linecolor,
-            width: 0.5,
-          },
+          color: linecolor,
+          width: 0.5,
         },
       },
     ],
@@ -110,28 +110,31 @@ export const setCurve = (
 }
 
 // 设置轮播
-export const carouselBlock = data => {
+export const carouselBlock = (data, option) => {
   data.forEach(v => {
     v.date2 = dayjs(v.date).format('MM/DD')
   })
 
-  $('.xt-weather-forecast-container').on('mouseenter', function () {
-    $('.xt-weather-forecast-swiper-left').toggle(true)
-    $('.xt-weather-forecast-swiper-right').toggle(true)
+  $(`.${option.id}1-forecast-container`).on('mouseenter', function () {
+    $(`.${option.id}1-forecast-swiper-left`).toggle(true)
+    $(`.${option.id}1-forecast-swiper-right`).toggle(true)
   })
-  $('.xt-weather-forecast-container').on('mouseleave', function () {
-    $('.xt-weather-forecast-swiper-left').toggle(false)
-    $('.xt-weather-forecast-swiper-right').toggle(false)
+  $(`.${option.id}1-forecast-container`).on('mouseleave', function () {
+    $(`.${option.id}1-forecast-swiper-left`).toggle(false)
+    $(`.${option.id}1-forecast-swiper-right`).toggle(false)
   })
-  let theight = $('.xt-weather-forecast-container').height()
-  if ($('.weather-week').length === 0) {
+  let theight = $(`.${option.id}1-forecast-container`).height()
+  if ($(`${option.id}1-weather-week`).length === 0) {
     for (let item of data) {
       let img = require(`./imgs/weathericon/${item.code}.png`)
+
       let $block = $(
         `
-        <li class="xt-weather-forecast-swiper-item">
+        <li class="${
+          option.id
+        }-forecast-swiper-item xt-weather-forecast-swiper-item">
         <div class="xt-weather-flex xt-weather-flex-just-between">
-          <div class="weather-week">${item.date2} ${
+          <div class="${option.id}1-weather-week weather-week">${item.date2} ${
           dayjs(item.date).isToday()
             ? '今天'
             : dayjs(item.date).isTomorrow()
@@ -147,53 +150,55 @@ export const carouselBlock = data => {
         </li>
         `
       )
-      $(`.xt-weather-forecast-swiper`).append($block)
+      $(`.${option.id}1-forecast-swiper`).append($block)
     }
   }
-  $('.xt-weather-forecast-swiper-left').attr(
+
+  $(`.${option.id}1-forecast-swiper-left`).attr(
     'style',
     `transform:translateY(${theight / 2}px);margin-top:-16px`
   )
-  $('.xt-weather-forecast-swiper-right').attr(
+  $(`.${option.id}1-forecast-swiper-right`).attr(
     'style',
     `transform:translateY(${theight / 2}px);margin-top:-16px;right:0`
   )
-  new Swiper().init()
+  new Swiper(option).init()
 }
 
 // 轮播类
 class Swiper {
-  constructor() {
-    this.w = $('.xt-weather-forecast-swiper-item').width()
+  constructor(option) {
+    this.w = $(`.${option.id}-forecast-swiper-item`).width()
     this.num = 0
     this.len =
-      $('.xt-weather-forecast-swiper .xt-weather-forecast-swiper-item').length -
-      1
+      $(`.${option.id}1-forecast-swiper .xt-weather-forecast-swiper-item`)
+        .length - 1
+    this.option = option
   }
   init() {
     this.lrClick()
   }
   lrClick() {
-    $('.xt-weather-forecast-swiper-left').click(() => {
+    $(`.${this.option.id}1-forecast-swiper-left`).click(() => {
       this.num--
       if (this.num < 0) {
         this.num = 0
         return
       }
       let cssTrx = -this.num * this.w
-      $('.xt-weather-forecast-swiper').css({
+      $(`.${this.option.id}1-forecast-swiper`).css({
         transform: `translateX(${cssTrx}px)`,
       })
     })
 
-    $('.xt-weather-forecast-swiper-right').click(() => {
+    $(`.${this.option.id}1-forecast-swiper-right`).click(() => {
       this.num++
       if (this.num > this.len) {
         this.num = this.len
         return
       }
       let cssTrx = -this.num * this.w
-      $('.xt-weather-forecast-swiper').css({
+      $(`.${this.option.id}1-forecast-swiper`).css({
         transform: `translateX(${cssTrx}px)`,
       })
     })
