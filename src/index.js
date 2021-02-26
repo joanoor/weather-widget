@@ -5,13 +5,10 @@ import MINA from './nature'
 
 autoImport(require.context('./styles', false, /\w+\.(scss|css)$/)) // 自动引入样式
 
-const URL =
-  'http://forecast.ecitydata.com:8666/test-open-api/portal/weather/visual'
+const URL = 'http://tianqidata.com/open-api/portal/weather/visual'
 
 const MODE = navigator.userAgent.toLowerCase()
 const isDev = process.env.NODE_ENV2 === 'development'
-console.log(MODE)
-console.log('process.env.NODE_ENV2', process.env.NODE_ENV2)
 const BGTYPE = {
   CLOUDYDAY: 'xt-cloudday', // 白天，多云的背景
   HEAVYDAY: 'xt-heavyday', // 白天，阴的背景
@@ -21,7 +18,6 @@ const BGTYPE = {
 }
 
 const initEl = option => {
-  console.log('此时的Option', option)
   $.ajax({
     type: 'GET',
     url: URL,
@@ -44,8 +40,12 @@ class weatherWidget {
     this.initElement(data, option) // 初始化界面元素
   }
   setBG(data) {
-    const sunRiseTime = new Date(`${data.todayWeather.date} 06:00`).getTime()
-    const sunGlowTime = new Date(`${data.todayWeather.date} 18:00`).getTime()
+    const sunRiseTime = new Date(
+      `${data.todayWeather.date + ' ' + data.dayTime.sunrise}`
+    ).getTime()
+    const sunGlowTime = new Date(
+      `${data.todayWeather.date + ' ' + data.dayTime.sunset}`
+    ).getTime()
     const nowTime = new Date().getTime()
     if (nowTime >= sunRiseTime && nowTime <= sunGlowTime) {
       switch (parseInt(data.nowWeather.code)) {
@@ -111,14 +111,16 @@ class weatherWidget {
       <span>${data.nowWeather.temp}</span>
     </div>
     `)
+    if (!option.hasOwnProperty('position')) option.position = 'absolute'
+    if (!option.hasOwnProperty('showBasic')) option.showBasic = true
     if (option.showBasic) {
       this.$xtWeather.append($basic)
     }
     let $normal = $(`<div class="${option.id}1-container-normal xt-weather-container-normal" id="${option.id}-detail">
     </div>`)
-    console.log('option.beAbsolute', option.beAbsolute)
+    console.log('option.position', option.position)
     $(`.${option.id}1-container-normal`).css({
-      position: option.beAbsolute,
+      position: option.position,
     })
 
     this.$xtWeather.append($normal)
@@ -128,20 +130,20 @@ class weatherWidget {
     if (!MODE.includes('mobile')) {
       $(`.${option.id}1-container-normal`).css({
         width: '320px',
-        position: option.beAbsolute,
+        position: option.position,
       })
     } else {
       if (!MODE.includes('ipad')) {
         $(`.${option.id}1-container-normal`).css({
           width: '100vw',
           height: '100vh',
-          position: option.beAbsolute,
+          position: option.position,
         })
       } else {
         $(`.${option.id}1-container-normal`).css({
           width: window.innerWidth,
           height: window.innerHeight,
-          position: option.beAbsolute,
+          position: option.position,
         })
       }
     }
@@ -232,11 +234,11 @@ class weatherWidget {
         })
       })
       // 隐藏
-      // if (!isDev) {
-      this.$xtWeather.on('mouseleave', function () {
-        _this.$xtDetail.toggle(false).removeClass(_this.ACTIVECLASS)
-      })
-      // }
+      if (!isDev) {
+        this.$xtWeather.on('mouseleave', function () {
+          _this.$xtDetail.toggle(false).removeClass(_this.ACTIVECLASS)
+        })
+      }
     } else {
       this.$xtDetail.toggle(true).addClass(_this.ACTIVECLASS)
       this.$xtDetail.ready(function () {
@@ -257,12 +259,9 @@ if (isDev) {
   initEl({
     id: 'xt-weather',
     showBasic: false,
-    beAbsolute: 'absolute',
   })
   initEl({
     id: 'xt-weather2',
-    showBasic: true,
-    beAbsolute: 'absolute',
   })
 }
 
